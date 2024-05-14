@@ -5,23 +5,25 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const dotenv = require('dotenv');
 dotenv.config();
-const dbConfig = require("./config/db.config");
+const dbConfig = require("./configs/db.config");
 const mongoose = require('mongoose');
+const swagger = require('./configs/swagger.config')
 
+
+// =======Database connections done here========
 mongoose.Promise = global.Promise;
-
 mongoose.connect(dbConfig.url, {
-  useNewUrlParser: true
 }).then(() => {
   console.log("Databse Connected Successfully!!");    
 }).catch(err => {
   console.log('Could not connect to the database', err);
   process.exit();
 });
+// =======Database connection ends here=======
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-const swagger = require("./swagger")
+var indexRouter = require("./routes/app.route");
+var usersRouter = require("./routes/user.route");
+var authRouter = require("./routes/auth.route");
 
 var app = express();
 
@@ -35,8 +37,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", indexRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
+
 
 swagger(app) 
 
