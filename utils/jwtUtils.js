@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-console.log(process.env.ACCESS_TOKEN_SECRET)
-
 const generateAccessToken = (email) => {
   return jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "2m",

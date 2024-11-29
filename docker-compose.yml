@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  app:
+    container_name: express_app
+    build: 
+      context: .
+    volumes:
+      - .:/usr/src/app
+    command: npm run dev
+    ports:
+      - '7500:7500'
+    env_file:
+      - .env
+    depends_on:
+      - mongo-db
+  
+  mongo-db:
+    container_name: express_app_db
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - '27018:27017'
+
+volumes:
+  mongo_data : {}

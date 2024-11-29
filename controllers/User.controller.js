@@ -1,6 +1,5 @@
 const UserModel = require('../models/user.models')
 const bcrypt = require('bcrypt');
-const { unsubscribe } = require('../routes/app.route');
 
 // Create and Save a new user
 
